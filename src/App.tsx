@@ -10,7 +10,7 @@ export default function App() {
             <ResizablePanel
                 defaultSize="55%"
                 minSize="10rem"
-                className="bg-sidebar-accent h- relative"
+                className="bg-sidebar-accent relative"
             >
                 <Viewer currentIndex={0} currentProjection={0} />
             </ResizablePanel>
