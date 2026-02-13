@@ -7,7 +7,11 @@ import { Editor } from "@/components/editor";
 export default function App() {
     return (
         <ResizablePanelGroup orientation="vertical" className="size-full">
-            <ResizablePanel defaultSize="55%" minSize="10rem" className="bg-sidebar-accent relative h-">
+            <ResizablePanel
+                defaultSize="55%"
+                minSize="10rem"
+                className="bg-sidebar-accent h- relative"
+            >
                 <Viewer currentIndex={0} currentProjection={0} />
             </ResizablePanel>
             <ResizableHandle
@@ -16,7 +20,11 @@ export default function App() {
             />
             <GlobalKeyboardProvider>
                 <TooltipProvider>
-                    <ResizablePanel defaultSize="45%" minSize="20rem" className="flex flex-col gap-2 py-2">
+                    <ResizablePanel
+                        defaultSize="45%"
+                        minSize="20rem"
+                        className="flex flex-col gap-2 py-2"
+                    >
                         <Editor />
                     </ResizablePanel>
                 </TooltipProvider>
