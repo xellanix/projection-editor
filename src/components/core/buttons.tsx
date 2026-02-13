@@ -1,0 +1,85 @@
+import { Button } from "@/components/ui/button";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useGlobalKeyboard } from "@/context/GlobalKeyboardContext";
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+import { useEffect, memo } from "react";
+
+interface BaseIconButtonProps {
+    label: string;
+    icon: IconSvgElement;
+    iconStrokeWidth?: number;
+    text?: string;
+    textClassName?: string;
+    accelerator?: {
+        shift?: boolean;
+        meta?: boolean;
+        alt?: boolean;
+        ctrl?: boolean;
+        key: string;
+    };
+}
+
+interface IconButtonProps extends BaseIconButtonProps {
+    onClick?: () => void;
+}
+export const IconButton = memo(function IconButton({
+    label,
+    icon,
+    iconStrokeWidth,
+    text,
+    textClassName,
+    onClick,
+    accelerator,
+}: IconButtonProps) {
+    const [register, unregister] = useGlobalKeyboard();
+    useEffect(() => {
+        if (accelerator) {
+            const key = `${accelerator.shift ? "Shift+" : ""}${
+                accelerator.meta ? "Meta+" : ""
+            }${accelerator.alt ? "Alt+" : ""}${accelerator.ctrl ? "Ctrl+" : ""}${accelerator.key}`;
+
+            register(
+                key,
+                onClick ??
+                    (() => {
+                        /* do nothing */
+                    }),
+            );
+            return () => {
+                unregister(key);
+            };
+        }
+    }, [accelerator, register, unregister, onClick]);
+
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <Button
+                    variant={"outline"}
+                    size={text ? "default" : "icon"}
+                    className="px-2! py-0"
+                    aria-label={label}
+                    onClick={onClick}
+                >
+                    <HugeiconsIcon icon={icon} strokeWidth={iconStrokeWidth ?? 2} />
+                    {text && <span className={textClassName}>{text}</span>}
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <div className="flex items-center gap-2">
+                    {label}
+                    {accelerator && (
+                        <KbdGroup>
+                            {accelerator.shift && <Kbd>Shift</Kbd>}
+                            {accelerator.meta && <Kbd>Meta</Kbd>}
+                            {accelerator.alt && <Kbd>Alt</Kbd>}
+                            {accelerator.ctrl && <Kbd>Ctrl</Kbd>}
+                            <Kbd>{accelerator.key}</Kbd>
+                        </KbdGroup>
+                    )}
+                </div>
+            </TooltipContent>
+        </Tooltip>
+    );
+});
