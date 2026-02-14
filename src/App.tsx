@@ -12,12 +12,10 @@ export default function App() {
                 minSize="10rem"
                 className="bg-sidebar-accent relative"
             >
+                <div className="absolute top-full size-full shadow-[0px_-8px_42px_0px_rgba(0,0,0,0.15)]"></div>
                 <Viewer currentIndex={0} currentProjection={0} />
             </ResizablePanel>
-            <ResizableHandle
-                withHandle
-                className="bg-sidebar-accent *:bg-sidebar-accent focus-visible:ring-0"
-            />
+            <ResizableHandle withHandle className="bg-sidebar-accent *:bg-sidebar-accent" />
             <GlobalKeyboardProvider>
                 <TooltipProvider>
                     <ResizablePanel
