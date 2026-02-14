@@ -1,7 +1,9 @@
 import { IconDropdownButton, IconDropdownMenuItem } from "@/components/core/buttons";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGlobalKeyboard } from "@/context/GlobalKeyboardContext";
 import { useProjectionStore } from "@/stores/projection.store";
 import { Add01Icon, KeyframesDoubleIcon, Layers01Icon } from "@hugeicons-pro/core-stroke-rounded";
+import { useCallback, useEffect } from "react";
 
 export function MasterTabs() {
     const projections = useProjectionStore((s) => s.projections);
@@ -20,7 +22,7 @@ export function MasterTabs() {
 }
 
 export function AddMasterButton() {
-    const addQueue = () => {
+    const addQueue = useCallback(() => {
         useProjectionStore.getState().addProjection({
             title: "Sample Master",
             bg: "./__temp/videos/essentials/background_ex_1080.webm",
@@ -32,14 +34,25 @@ export function AddMasterButton() {
                 },
             ],
         });
-    };
+    }, []);
 
-    const addContent = () => {
+    const addContent = useCallback(() => {
         useProjectionStore.getState().addContent(0, {
             type: "Text",
             content: "Text Content",
         });
-    };
+    }, []);
+
+    const [register, unregister] = useGlobalKeyboard();
+    useEffect(() => {
+        register("A", addContent);
+        register("Shift+A", addQueue);
+
+        return () => {
+            unregister("A");
+            unregister("Shift+A");
+        };
+    }, [addQueue, addContent, register, unregister]);
 
     return (
         <IconDropdownButton label="Add Item" icon={Add01Icon} iconStrokeWidth={2.5}>
