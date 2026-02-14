@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
 import { typeNodeToColor, typeNodeToIcon } from "@/lib/node";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { NodeType } from "@/types/node";
 
 function NodeContainer({ children }: { children?: React.ReactNode }) {
     return <div className="flex h-full flex-row items-start px-4">{children}</div>;
 }
 
 interface NodeProps {
-    type: "text" | "image" | "video" | "background" | "transition";
+    type: NodeType;
 }
 function Node(props: NodeProps) {
     const typeColor = typeNodeToColor(props.type);

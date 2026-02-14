@@ -1,3 +1,4 @@
+import type { NodeType } from "@/types/node";
 import {
     BackgroundIcon,
     Image03Icon,
@@ -6,7 +7,7 @@ import {
     Video02Icon,
 } from "@hugeicons-pro/core-stroke-rounded";
 
-export function typeNodeToColor(type: string) {
+export function typeNodeToColor(type: NodeType) {
     switch (type) {
         case "text":
             return "bg-amber-200 text-amber-700 border-amber-700/50";
@@ -22,7 +23,7 @@ export function typeNodeToColor(type: string) {
     }
 }
 
-export function typeNodeToIcon(type: string) {
+export function typeNodeToIcon(type: NodeType) {
     switch (type) {
         case "text":
             return TextIcon;
