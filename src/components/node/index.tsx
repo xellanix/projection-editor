@@ -9,21 +9,22 @@ function NodeContainer({ children }: { children?: React.ReactNode }) {
 
 interface NodeProps {
     type: NodeType;
+    label?: string;
 }
 function Node(props: NodeProps) {
     const typeColor = typeNodeToColor(props.type);
     const typeIcon = typeNodeToIcon(props.type);
 
     return (
-        <span
+        <div
             className={cn(
-                "flex w-24 shrink-0 flex-row items-center gap-1 rounded-sm border px-2 py-1 text-sm select-none",
+                "flex w-24 shrink-0 flex-row items-center justify-start gap-1 rounded-sm border px-2 py-1 select-none md:w-32",
                 typeColor,
             )}
         >
-            <HugeiconsIcon icon={typeIcon} className="size-3.5" strokeWidth={2.25} />
-            Item
-        </span>
+            <HugeiconsIcon icon={typeIcon} className="size-3.5 shrink-0" strokeWidth={2.25} />
+            <span className="truncate text-sm">{props.label ?? "Item"}</span>
+        </div>
     );
 }
 

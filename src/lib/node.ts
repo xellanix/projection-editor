@@ -1,3 +1,4 @@
+import type { ProjectionItem } from "@/types";
 import type { NodeType } from "@/types/node";
 import {
     BackgroundIcon,
@@ -36,5 +37,21 @@ export function typeNodeToIcon(type: NodeType) {
         case "background":
         default:
             return BackgroundIcon;
+    }
+}
+
+export function projectionToNode(source: ProjectionItem["type"]): NodeType {
+    switch (source) {
+        case "Text":
+            return "text";
+        case "Image":
+            return "image";
+        case "Video":
+            return "video";
+        // This should be changed to its own type
+        // @ts-expect-error
+        case "Component":
+        default:
+            return "background";
     }
 }
