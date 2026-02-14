@@ -1,7 +1,7 @@
-import { IconButton } from "@/components/core/buttons";
+import { IconDropdownButton, IconDropdownMenuItem } from "@/components/core/buttons";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectionStore } from "@/stores/projection.store";
-import { Add01Icon } from "@hugeicons-pro/core-stroke-rounded";
+import { Add01Icon, KeyframesDoubleIcon, Layers01Icon } from "@hugeicons-pro/core-stroke-rounded";
 
 export function MasterTabs() {
     const projections = useProjectionStore((s) => s.projections);
@@ -20,7 +20,7 @@ export function MasterTabs() {
 }
 
 export function AddMasterButton() {
-    const onClick = () => {
+    const addQueue = () => {
         useProjectionStore.getState().addProjection({
             title: "Sample Master",
             bg: "./__temp/videos/essentials/background_ex_1080.webm",
@@ -34,16 +34,36 @@ export function AddMasterButton() {
         });
     };
 
+    const addContent = () => {
+        useProjectionStore.getState().addContent(0, {
+            type: "Text",
+            content: "Text Content",
+        });
+    };
+
     return (
-        <IconButton
-            label={"Add Queue"}
-            icon={Add01Icon}
-            iconStrokeWidth={2.5}
-            onClick={onClick}
-            accelerator={{
-                key: "A",
-                shift: true,
-            }}
-        />
+        <IconDropdownButton label="Add Item" icon={Add01Icon} iconStrokeWidth={2.5}>
+            <IconDropdownMenuItem
+                label={"Add Queue"}
+                text="Queue"
+                icon={KeyframesDoubleIcon}
+                iconStrokeWidth={2}
+                onClick={addQueue}
+                accelerator={{
+                    key: "A",
+                    shift: true,
+                }}
+            />
+            <IconDropdownMenuItem
+                label={"Add Content"}
+                text="Content"
+                icon={Layers01Icon}
+                iconStrokeWidth={2}
+                onClick={addContent}
+                accelerator={{
+                    key: "A",
+                }}
+            />
+        </IconDropdownButton>
     );
 }

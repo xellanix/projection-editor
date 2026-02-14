@@ -1,4 +1,12 @@
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useGlobalKeyboard } from "@/context/GlobalKeyboardContext";
@@ -81,5 +89,65 @@ export const IconButton = memo(function IconButton({
                 </div>
             </TooltipContent>
         </Tooltip>
+    );
+});
+
+interface IconDropdownButtonProps extends Omit<
+    BaseIconButtonProps,
+    "accelerator" | "text" | "textClassName"
+> {
+    children?: React.ReactNode;
+}
+export const IconDropdownButton = memo(function IconDropdownButton({
+    label,
+    icon,
+    iconStrokeWidth,
+    children,
+}: IconDropdownButtonProps) {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <div>
+                    <IconButton label={label} icon={icon} iconStrokeWidth={iconStrokeWidth ?? 2} />
+                </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>{label}</DropdownMenuLabel>
+                {children}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+});
+
+export const IconDropdownMenuItem = memo(function IconDropdownMenuItem({
+    label,
+    icon,
+    iconStrokeWidth,
+    text,
+    textClassName,
+    onClick,
+    accelerator,
+}: IconButtonProps) {
+    return (
+        <DropdownMenuItem aria-label={label} onClick={onClick}>
+            <HugeiconsIcon
+                icon={icon}
+                strokeWidth={iconStrokeWidth ?? 2}
+                className="text-foreground"
+            />
+            <span className={textClassName}>{text}</span>
+
+            {accelerator && (
+                <DropdownMenuShortcut>
+                    <KbdGroup>
+                        {accelerator.shift && <Kbd>Shift</Kbd>}
+                        {accelerator.meta && <Kbd>Meta</Kbd>}
+                        {accelerator.alt && <Kbd>Alt</Kbd>}
+                        {accelerator.ctrl && <Kbd>Ctrl</Kbd>}
+                        <Kbd>{accelerator.key}</Kbd>
+                    </KbdGroup>
+                </DropdownMenuShortcut>
+            )}
+        </DropdownMenuItem>
     );
 });
